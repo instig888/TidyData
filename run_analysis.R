@@ -1,5 +1,10 @@
+# Load the dplyr package
 library(dplyr)
-setwd("~/RCode/GettingData/Project/TidyData")
+
+mywd <- "~/RCode/GettingData/Project/TidyData" 
+
+if(file.exists(mywd)) setwd(mywd)
+# ELSE use current directory
 
 dateDownloaded <- format(Sys.Date(), "%m%d%Y")
 fileName <- paste("projectSet", dateDownloaded, ".zip")
@@ -14,11 +19,6 @@ activities <- read.table(unzip(fileName,files=c("UCI HAR Dataset/activity_labels
 names(activities) <- c("Activity.Code", "Activity.Name")
 features <- read.table(unzip(fileName,files=c("UCI HAR Dataset/features.txt"),overwrite=TRUE))
 names(features) <- c("Feature.Code", "Feature.Name")
-
-# train/X_train.txt: Training set.
-# train/y_train.txt: Training labels.
-# test/X_test.txt: Test set.
-# test/y_test.txt: Test labels.
 
 # Read the Test and Train Data Sets
 xtrDf <- read.table(unzip(fileName,files=c("UCI HAR Dataset/train/X_train.txt"),overwrite=TRUE))
