@@ -53,7 +53,7 @@ meanStdColumns <- grep("mean|std", features$Feature.Name)
 # Create a new column in the data frame with the activity name from the
 # activity code set provided in the Zip
 yallDf$Activity <- activities[yallDf$V1, "Activity.Name"]
-names(yallDf)[1] <- "Activity.Code"
+names(yallDf) <- c("Activity.Code","Activity.Name")
 
 # End of 3
 # ==================================================================
@@ -77,13 +77,18 @@ for(i in meanStdColumns)
   # ---------------------------------------------------------------------
   
   # Add column to the data frame
-  #if(length(meanStdDf) == 0) meanStdDf <- data.frame(newCol)
-  #else meanStdDf <- cbind(meanStdDf, newCol)
-  meanStdDf <- cbind(meanStdDf, newCol)
-  
+  meanStdDf <- cbind(meanStdDf, newCol)  
 }
 
 # End of 2
 # ==================================================================
 
+# ===================================================================================
+# 5. From the data set in step 4, creates a second, independent tidy data set with
+#    the average of each variable for each activity and each subject.
 
+
+finalDf <- meanStdDf %>% group_by(Subject.Number, Activity.Code, Activity.Name) %>% summarise_each(funs(mean))
+# Please upload the tidy data set created in step 5 of the instructions.
+# Txt file created with write.table() using row.name=FALSE
+write.table(finalDf, file="final_tidy_data.txt", row.name=FALSE)
